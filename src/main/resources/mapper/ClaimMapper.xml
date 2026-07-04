@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campus.lostfound.mapper.ClaimMapper">
+
+    <resultMap id="claimResultMap" type="com.campus.lostfound.entity.Claim">
+        <id column="id" property="id"/>
+        <result column="lost_item_id" property="lostItemId"/>
+        <result column="found_item_id" property="foundItemId"/>
+        <result column="claimant_id" property="claimantId"/>
+        <result column="respondent_id" property="respondentId"/>
+        <result column="match_score" property="matchScore"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,45 @@
+# Build output
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.trae/
+.vscode/
+
+# Trae tools
+.superpowers/
+.uploads/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+~$*
+
+# Dependencies
+node_modules/
+ai-service/app/__pycache__/
+ai-service/**/__pycache__/
+*.pyc
+
+# Build dist
+dist/
+
+# Private homework materials (not for public GitHub)
+校园失物招领系统_实验报告.docx
+视频逐字稿.md
+截图清单.md
+大作业考核基础方案量化要求.pdf
+考核说明.pdf
+课程大作业报告模板.docx
+
+# Uploads
+uploads/
+D:/uploads/

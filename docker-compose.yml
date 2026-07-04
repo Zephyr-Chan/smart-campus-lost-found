@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports: ["8080:8080"]
+    depends_on: [mysql, redis, rabbitmq]
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/lost_found
+      - SPRING_REDIS_HOST=redis
+      - SPRING_RABBITMQ_HOST=rabbitmq
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 136280Czf
+      MYSQL_DATABASE: lost_found
+    ports: ["3306:3306"]
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./src/main/resources/sql/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./src/main/resources/sql/migration_v2.sql:/docker-entrypoint-initdb.d/02-migration.sql
+  redis:
+    image: redis/redisstack:latest
+    ports: ["6379:6379"]
+    volumes: [redis_data:/data]
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    ports: ["5672:5672", "15672:15672"]
+  elasticsearch:
+    image: elasticsearch:7.17.10
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ports: ["9200:9200"]
+  ai-service:
+    build: ./ai-service
+    ports: ["8001:8001"]
+    depends_on: [redis]
+volumes:
+  mysql_data:
+  redis_data:

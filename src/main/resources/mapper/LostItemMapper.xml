@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campus.lostfound.mapper.LostItemMapper">
+
+    <resultMap id="lostItemResultMap" type="com.campus.lostfound.vo.LostItemVO">
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="publisher_name" property="publisherName"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="category" property="category"/>
+        <result column="location" property="location"/>
+        <result column="event_time" property="eventTime"/>
+        <result column="contact_info" property="contactInfo"/>
+        <result column="images" property="images"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="selectLostItemList" resultMap="lostItemResultMap">
+        SELECT l.*, u.real_name AS publisher_name
+        FROM lost_item l
+        LEFT JOIN user u ON l.user_id = u.id
+        WHERE 1 = 1
+        <if test="category != null and category != ''">
+            AND l.category = #{category}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (l.title LIKE CONCAT('%', #{keyword}, '%')
+                 OR l.description LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        ORDER BY l.create_time DESC
+        LIMIT #{offset}, #{size}
+    </select>
+
+    <select id="selectLostItemById" resultMap="lostItemResultMap">
+        SELECT l.*, u.real_name AS publisher_name
+        FROM lost_item l
+        LEFT JOIN user u ON l.user_id = u.id
+        WHERE l.id = #{id}
+    </select>
+
+</mapper>
