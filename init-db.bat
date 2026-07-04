@@ -18,18 +18,24 @@ if %errorlevel% neq 0 (
 echo 数据库创建成功
 
 echo.
-echo [2/3] 执行基础表脚本...
+echo [2/4] 执行基础表脚本...
 mysql -u root -p%MYSQL_PWD% lost_found < "src\main\resources\sql\init.sql" 2>nul
 echo 基础表创建成功
 
 echo.
-echo [3/3] 执行升级表脚本...
+echo [3/4] 执行升级表脚本...
 mysql -u root -p%MYSQL_PWD% lost_found < "src\main\resources\sql\migration_v2.sql" 2>nul
 echo 升级表创建成功
 
 echo.
+echo [4/4] 导入测试数据...
+mysql -u root -p%MYSQL_PWD% lost_found < "sql\demo-data.sql" 2>nul
+echo 测试数据导入成功
+
+echo.
 echo ========================================
-echo   数据库初始化完成！共13张表
-echo   默认管理员: admin / debug123
+echo   数据库初始化完成！共13张表+测试数据
+echo   默认管理员: admin / 123456
+echo   测试用户:   zhangwei2024 / 123456
 echo ========================================
 pause

@@ -10,8 +10,8 @@ echo.
 echo 按 Ctrl+C 可停止应用
 echo.
 
-:: 创建上传目录
-if not exist "D:\uploads\lost-found" mkdir "D:\uploads\lost-found"
+:: 创建上传目录（项目内）
+if not exist "src\main\webapp\upload" mkdir "src\main\webapp\upload"
 
 mvn spring-boot:run
 
