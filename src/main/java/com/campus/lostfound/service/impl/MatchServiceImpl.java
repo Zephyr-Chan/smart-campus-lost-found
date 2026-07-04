@@ -88,13 +88,10 @@ public class MatchServiceImpl implements MatchService {
 
     @Override
     public Result<List<MatchResultVO>> findMatches(Long lostItemId, Long currentUserId) {
-        // 1. 查询丢失物品并校验权限（先于缓存，避免越权读取他人匹配结果）
+        // 1. 查询丢失物品（所有登录用户均可查看匹配结果）
         LostItem lostItem = lostItemMapper.selectById(lostItemId);
         if (lostItem == null) {
             throw new BizException(ResultCode.NOT_FOUND.getCode(), "丢失物品不存在");
-        }
-        if (!lostItem.getUserId().equals(currentUserId)) {
-            throw new BizException(ResultCode.FORBIDDEN.getCode(), "只能对自己的丢失物品进行智能匹配");
         }
 
         // 2. 检测 AI 服务可用性，决定匹配策略

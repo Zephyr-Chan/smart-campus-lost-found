@@ -65,8 +65,8 @@
             var isOwner = currentUser && item.userId === currentUser.id;
             var actionBtns = '';
 
-            // H-1修复：丢失物品的发布者（owner）才能触发智能匹配
-            if (itemType === 'lost' && isOwner) {
+            // 丢失物品：所有登录用户均可触发智能匹配和查看匹配结果
+            if (itemType === 'lost' && isLogin()) {
                 actionBtns += '<button class="layui-btn layui-btn-normal" onclick="startMatch(' + item.id + ', event)"><i class="layui-icon layui-icon-search"></i> 智能匹配</button>';
             }
 
@@ -75,8 +75,7 @@
                 actionBtns += '<button class="layui-btn layui-btn-warm" onclick="directClaim(' + item.id + ')"><i class="layui-icon layui-icon-ok"></i> 直接认领</button>';
             }
 
-            // H-1修复：只有owner才能查看匹配结果
-            if (itemType === 'lost' && isOwner) {
+            if (itemType === 'lost' && isLogin()) {
                 actionBtns += '<a href="/match/result?lostItemId=' + item.id + '" class="layui-btn layui-btn-primary"><i class="layui-icon layui-icon-chart"></i> 查看匹配结果</a>';
             }
 
