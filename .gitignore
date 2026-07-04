@@ -40,6 +40,13 @@ dist/
 考核说明.pdf
 课程大作业报告模板.docx
 
-# Uploads
+# Uploads (外部上传目录，不跟踪)
 uploads/
 D:/uploads/
+# 但项目内 webapp/upload/demo/ 的演示图片需要跟踪
+!src/main/webapp/upload/
+!src/main/webapp/upload/demo/
+!src/main/webapp/upload/demo/*.jpg
+# 用户实际上传的图片（按日期分目录）不跟踪
+src/main/webapp/upload/2026/
+src/main/webapp/upload/2025/

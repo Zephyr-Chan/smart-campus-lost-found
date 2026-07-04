@@ -51,10 +51,13 @@ public class FileUploadUtil {
         String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         String fileName = UUID.randomUUID().toString().replace("-", "") + suffix;
         String relativePath = datePath + "/" + fileName;
-        // 确保目录存在
-        File dest = new File(uploadPath + relativePath);
-        if (!dest.getParentFile().exists()) {
-            dest.getParentFile().mkdirs();
+        // 转为绝对路径，确保 mkdirs 和 transferTo 能正确创建文件
+        java.nio.file.Path baseDir = java.nio.file.Paths.get(uploadPath).toAbsolutePath();
+        File dest = new File(baseDir.toString(), relativePath);
+        // 确保目录存在（多次重试，防止并发或权限问题）
+        File parentDir = dest.getParentFile();
+        if (!parentDir.exists() && !parentDir.mkdirs()) {
+            throw new BizException(ResultCode.SYSTEM_ERROR.getCode(), "无法创建上传目录: " + parentDir.getAbsolutePath());
         }
         try {
             file.transferTo(dest.getAbsoluteFile());
