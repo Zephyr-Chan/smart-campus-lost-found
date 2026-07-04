@@ -19,7 +19,7 @@
 <!-- layui JS -->
 <script src="https://cdn.jsdelivr.net/npm/layui@2.9.21/dist/layui.js"></script>
 <!-- 公共JS（带版本号防缓存） -->
-<script src="${ctx}/static/js/common.js?v=6.1"></script>
+<script src="${ctx}/static/js/common.js?v=7.0"></script>
 <script>
     // 初始化layui模块
     layui.use(['layer', 'form', 'laydate', 'upload', 'table', 'laypage', 'element'], function () {

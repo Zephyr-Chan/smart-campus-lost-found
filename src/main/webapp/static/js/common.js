@@ -419,24 +419,50 @@ function getImageUrl(imagePath) {
 }
 
 /**
+ * 解析图片路径，兼容JSON数组和逗号分隔两种格式
+ * @param {string|Array} images 图片路径
+ * @returns {Array} 图片URL数组
+ */
+function parseImages(images) {
+    if (!images) return [];
+    if (Array.isArray(images)) {
+        return images.filter(function (img) { return img && img.trim() !== ''; });
+    }
+    if (typeof images === 'string') {
+        var trimmed = images.trim();
+        if (trimmed === '') return [];
+        if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+            try {
+                var parsed = JSON.parse(trimmed);
+                if (Array.isArray(parsed)) {
+                    return parsed.filter(function (img) { return img && img.trim() !== ''; });
+                }
+            } catch (e) {}
+        }
+        return trimmed.split(',').filter(function (img) {
+            return img.trim() !== '';
+        }).map(function (img) {
+            return img.trim();
+        });
+    }
+    return [];
+}
+
+/**
  * 获取第一张图片URL
- * @param {string} images 多图片路径（逗号分隔）
+ * @param {string|Array} images 多图片路径（JSON数组或逗号分隔）
  */
 function getFirstImage(images) {
-    if (!images) return '';
-    var arr = images.split(',');
-    return arr[0];
+    var arr = parseImages(images);
+    return arr.length > 0 ? arr[0] : '';
 }
 
 /**
  * 获取所有图片URL数组
- * @param {string} images 多图片路径（逗号分隔）
+ * @param {string|Array} images 多图片路径（JSON数组或逗号分隔）
  */
 function getAllImages(images) {
-    if (!images) return [];
-    return images.split(',').filter(function (img) {
-        return img.trim() !== '';
-    });
+    return parseImages(images);
 }
 
 /**
